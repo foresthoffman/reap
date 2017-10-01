@@ -32,6 +32,9 @@ func generateBgCmd(name string, arg ...string) string {
 	return cmdString
 }
 
+// Runs a specified command with the provided arguments. The child process that is generated will
+// be put in the background and its PID will be returned. An invalid PID or a script-error will
+// result in a non-nil error being returned.
 func Run(name string, arg ...string) (string, error) {
 	var out bytes.Buffer
 	var stderr bytes.Buffer
