@@ -9,11 +9,10 @@
 package midproc
 
 import (
-	"fmt"
-	"os/exec"
 	"bytes"
 	"errors"
-	"strconv"
+	"fmt"
+	"os/exec"
 	"strings"
 )
 
@@ -33,7 +32,7 @@ func generateBgCmd(name string, arg ...string) string {
 	return cmdString
 }
 
-func Run(name string, arg ...string) (uint32, error) {
+func Run(name string, arg ...string) (string, error) {
 	var out bytes.Buffer
 	var stderr bytes.Buffer
 	sleepCmd := exec.Command("/bin/bash", "-c", generateBgCmd(name, arg...))
@@ -42,20 +41,14 @@ func Run(name string, arg ...string) (uint32, error) {
 
 	err := sleepCmd.Run()
 	if nil != err {
-		return 0, errors.New(fmt.Sprintf("%v: %v", err, stderr.String()))
+		return "0", errors.New(fmt.Sprintf("%v: %v", err, stderr.String()))
 	}
 
 	// remove the newline character that gets appended to the PID via the "echo" command
 	outStr := strings.Replace(out.String(), "\n", "", 1)
-
-	i, err := strconv.ParseInt(outStr, 10, 64)
-	if nil != err {
-		return 0, err
-	}
-	pid := uint32(i)
-	if 0 == pid {
-		return 0, errors.New("Invalid PID of 0")
+	if "0" == outStr {
+		return "0", errors.New("Invalid PID of 0")
 	}
 
-	return pid, nil
+	return outStr, nil
 }
