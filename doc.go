@@ -7,7 +7,7 @@
  */
 
 /*
-"midproc" provides functions for running custom programs with optional arguments. This package allows Go programs to create detached processes which can live and exit independently of their parents. This package is intended to be utilized to create an intermediate process runner (*). Such a runner is used to create a 2nd-degree child (grandchild) process, then it is discarded, which results in a detached child process.
+"midproc" provides functionality for running commands with optional arguments as background processes. This package allows Go programs to create detached processes which can live and exit independently of their parents. This package is intended to be utilized to create an intermediate process runner (*). Such a runner is used to create a 2nd-degree child (grandchild) process, then it is discarded, which results in a detached child process.
 
 Here's an example:
 
