@@ -37,7 +37,7 @@ This is of course assuming that the host operating system is *nix based, as this
     "Note that the examples in [os/exec] assume a Unix system.
     They may not run on Windows,..." - in go1.9
 
-(*) See https://github.com/foresthoffman/midprocrunner for a intermediate process runner.
+(*) See https://github.com/foresthoffman/midprocrunner for an intermediate process runner.
 
 Usage:
 

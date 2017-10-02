@@ -2,7 +2,7 @@
 
 "midproc" provides functionality for running commands with optional arguments as background processes. This package allows Go programs to create detached processes which can live and exit independently of their parents. This package is intended to be utilized to create an intermediate process runner (*). Such a runner is used to create a 2nd-degree child (grandchild) process, then it is discarded, which results in a detached child process.
 
-(*) See [midprocrunner](https://github.com/foresthoffman/midprocrunner) for a intermediate process runner.
+(*) See [midprocrunner](https://github.com/foresthoffman/midprocrunner) for an intermediate process runner.
 
 ### Installation
 
