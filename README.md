@@ -40,6 +40,9 @@ func main() {
                                            // that will run the "sleep" command
                                            // with a duration of 30 seconds,
                                            // after which it exits.
+    if nil != err {
+        panic(err)
+    }
     fmt.Println(pid) // Outputs the process ID of the "sleep" command.
 }
 ```
