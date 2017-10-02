@@ -19,7 +19,7 @@ import (
 // Generates a command that will create a process to run the provided command (with its
 // arguments) in the background. Immediately after the process is started, the PID will be
 // collected and sent to standard output. Since this command is prefixed by the "nohup" command
-// and the stdin and stdout streams for the background-process have been directed to the bit-
+// and the Stdin and Stdout streams for the background-process have been directed to the bit-
 // bucket (/dev/null), only the PID will be output.
 func generateBgCmd(name string, arg ...string) string {
 	cmdString := fmt.Sprintf(
@@ -34,6 +34,9 @@ func generateBgCmd(name string, arg ...string) string {
 // Runs a specified command with the provided arguments. The child process that is generated will
 // be put in the background and its PID will be returned. An invalid PID or a script-error will
 // result in a non-nil error being returned.
+//
+// In the case of a script-error, the error output to Stderror will be captured and returned along
+// with the error from the exec.Cmd.Run() call.
 func Run(name string, arg ...string) (string, error) {
 	var out bytes.Buffer
 	var stderr bytes.Buffer
