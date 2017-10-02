@@ -16,13 +16,12 @@ import (
 	"strings"
 )
 
+// Generates a command that will create a process to run the provided command (with its
+// arguments) in the background. Immediately after the process is started, the PID will be
+// collected and sent to standard output. Since this command is prefixed by the "nohup" command
+// and the stdin and stdout streams for the background-process have been directed to the bit-
+// bucket (/dev/null), only the PID will be output.
 func generateBgCmd(name string, arg ...string) string {
-
-	// This command string, when run, will create a process to run the provided command (with its
-	// arguments) in the background. Immediately after the process is started, the PID will be
-	// collected and sent to standard output. Since this command is prefixed by the "nohup" command
-	// and the stdin and stdout streams for the background-process have been directed to the bit-
-	// bucket (/dev/null), only the PID will be output.
 	cmdString := fmt.Sprintf(
 		"nohup %s %s < /dev/null &>/dev/null & echo $! | awk '/[0-9]+$/{ print $0 }'",
 		name,
