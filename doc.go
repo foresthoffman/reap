@@ -58,5 +58,34 @@ Usage:
         }
         fmt.Println(pid) // Outputs the process ID of the "sleep" command.
     }
+
+Advanced usage, with dynamic commands and arguments via CLI flags:
+
+    package main
+
+    import(
+        "flag"
+        "fmt"
+        "github.com/foresthoffman/midproc"
+    )
+
+    func main() {
+        cmdFlag := flag.String("cmd", "", "The command that will be run by the middle-man process.")
+        argsFlag := flag.String("args", "", "The arguments for the command provided by the -cmd flag. Optional.")
+        flag.Parse()
+
+        //... flag input validation
+
+        // Creates a detached child process that will run the command provided
+        // in the `-cmd` CLI flag with the provided arguments in the `-args`
+        // CLI flag, if any. After which, it will exit.
+        pid, err := midproc.Run(*cmdFlag, *argsFlag)
+        if nil != err {
+            panic(err)
+        }
+
+        // Outputs the process ID of the provided command.
+        fmt.Println(pid)
+    }
 */
 package midproc
