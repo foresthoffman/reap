@@ -25,7 +25,7 @@ func TestRun(t *testing.T) {
 
 	pid, err := Run(cmd, arg)
 	cmdStr := fmt.Sprintf(
-		"ps aux | awk '/[^0-9]+(%s)[^\\n]*0:00 (%s %s)$/{ print $2,$11,$12 }'",
+		"ps aux | awk '/%s.*0:00 %s %s$/{ print $2,$11,$12 }'",
 		pid,
 		cmd,
 		arg,
@@ -41,7 +41,7 @@ func TestRun(t *testing.T) {
 	psCmd.Stderr = &stderr
 	err = psCmd.Run()
 	if nil != err {
-		t.Errorf("Failed to check for process status. err: %v, %s", err, stderr.String())
+		t.Errorf("Failed to check for process status. err: %v, %s", err.Error(), stderr.String())
 	} else if "" == stdout.String() {
 		t.Error("Failed to check for process status. Process was not found.")
 	}
