@@ -19,30 +19,24 @@ import (
 func TestRun(t *testing.T) {
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
-	var pid string
 	cmd := "sleep"
 	arg := "5"
 
 	pid, err := Run(cmd, arg)
-	cmdStr := fmt.Sprintf(
-		"ps aux | awk '/[^0-9]+(%s)[^\\n]*0:00 (%s %s)$/{ print $2,$11,$12 }'",
-		pid,
-		cmd,
-		arg,
-	)
+	if nil != err {
+		t.Fatalf("Failed to run \"%s %s\", %s", cmd, arg, err.Error())
+	}
+	cmdStr := fmt.Sprintf("ps aux | awk '/%d.*0:00 %s %s/{ print $2,$11,$12 }'", pid, cmd, arg)
 
-	// checks for a process with the specified name and PID
-	psCmd := exec.Command(
-		"/bin/bash",
-		"-c",
-		cmdStr,
-	)
+	// Checks for a process with the specified name and PID.
+	psCmd := exec.Command("/bin/bash", "-c", cmdStr)
 	psCmd.Stdout = &stdout
 	psCmd.Stderr = &stderr
 	err = psCmd.Run()
 	if nil != err {
-		t.Errorf("Failed to check for process status. err: %v, %s", err, stderr.String())
-	} else if "" == stdout.String() {
-		t.Error("Failed to check for process status. Process was not found.")
+		t.Fatalf("Failed to get status, %s, %s", err.Error(), stderr.String())
+	}
+	if "" == stdout.String() {
+		t.Fatal("Failed to get status, process not found.")
 	}
 }
