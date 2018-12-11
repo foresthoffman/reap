@@ -19,13 +19,15 @@ import (
 func TestRun(t *testing.T) {
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
-	var pid string
 	cmd := "sleep"
 	arg := "5"
 
 	pid, err := Run(cmd, arg)
+	if nil != err {
+		t.Errorf("Error from Run(): %v", err.Error())
+	}
 	cmdStr := fmt.Sprintf(
-		"ps aux | awk '/%s.*0:00 %s %s$/{ print $2,$11,$12 }'",
+		"ps aux | awk '/%d.*0:00 %s %s/{ print $2,$11,$12 }'",
 		pid,
 		cmd,
 		arg,
