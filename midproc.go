@@ -13,8 +13,8 @@ import (
 	"errors"
 	"fmt"
 	"os/exec"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 // Generates a command that will create a process to run the provided command (with its
@@ -23,13 +23,11 @@ import (
 // and the Stdin and Stdout streams for the background-process have been directed to the bit-
 // bucket (/dev/null), only the PID will be output.
 func generateBgCmd(name string, arg ...string) string {
-	cmdString := fmt.Sprintf(
-		"nohup %s %s < /dev/null &>/dev/null & echo -n $! | awk '/[0-9]+$/{ print $0 }'",
+	return fmt.Sprintf(
+		"nohup %s %s < /dev/null &>/dev/null & echo -n $! | awk '/[0-9]+$/{ printf $0 }'",
 		name,
 		strings.Join(arg, " "),
 	)
-
-	return cmdString
 }
 
 // Runs a specified command with the provided arguments. The child process that is generated will
@@ -47,12 +45,16 @@ func Run(name string, arg ...string) (int, error) {
 
 	err := sleepCmd.Run()
 	if nil != err {
-		return 0, errors.New(fmt.Sprintf("%v: %v", err.Error(), stderr.String()))
+		return 0, errors.New(fmt.Sprintf("%s, %s", err.Error(), stderr.String()))
 	}
 
-	pid, err := strconv.Atoi(strings.TrimSuffix(out.String(), "\n"))
-	if nil != err { return 0, err }
-	if 0 == pid { return 0, errors.New("Invalid PID of 0") }
+	pid, err := strconv.Atoi(out.String())
+	if nil != err {
+		return 0, err
+	}
+	if 0 == pid {
+		return 0, errors.New("invalid PID of 0")
+	}
 
 	return pid, nil
 }
