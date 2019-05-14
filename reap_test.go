@@ -1,12 +1,12 @@
 /**
- * midproc_test.go
+ * reap_test.go
  *
  * Copyright (c) 2017 Forest Hoffman. All Rights Reserved.
  * License: MIT License (see the included LICENSE file) or download at
- *     https://raw.githubusercontent.com/foresthoffman/midproc/master/LICENSE
+ *     https://raw.githubusercontent.com/foresthoffman/reap/master/LICENSE
  */
 
-package midproc
+package reap
 
 import (
 	"bytes"
@@ -15,14 +15,14 @@ import (
 	"testing"
 )
 
-// Ensures that the Run() function creates new background processes.
-func TestRun(t *testing.T) {
+// Ensures that a new background processe is created.
+func TestExec(t *testing.T) {
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 	cmd := "sleep"
 	arg := "5"
 
-	pid, err := Run(cmd, arg)
+	pid, err := Exec(cmd, arg)
 	if nil != err {
 		t.Fatalf("Failed to run \"%s %s\", %s", cmd, arg, err.Error())
 	}

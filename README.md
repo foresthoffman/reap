@@ -1,16 +1,16 @@
-## Midproc
+## Reap
 
-"midproc" provides functionality for running commands with optional arguments as background processes. This package allows Go programs to create detached processes which can live and exit independently of their parents. This package is intended to be utilized to create an intermediate process runner (*). Such a runner is used to create a 2nd-degree child (grandchild) process, then it is discarded, which results in a detached child process.
+"reap" provides functionality for running commands with optional arguments as background processes. This package allows Go programs to create detached processes which can live and exit independently of their parents. This package is intended to be utilized to create an intermediate process runner (*). Such a runner is used to create a 2nd-degree child (grandchild) process, then it is discarded, which results in a detached child process.
 
-(*) See [midprocrunner](https://github.com/foresthoffman/midprocrunner) for an intermediate process runner.
+(*) See [reaper](https://github.com/foresthoffman/reaper) for an intermediate process runner.
 
 ### Installation
 
-Run `go get github.com/foresthoffman/midproc`
+Run `go get github.com/foresthoffman/reap`
 
 ### Importing
 
-Import this package by including `github.com/foresthoffman/midproc` in your import block.
+Import this package by including `github.com/foresthoffman/reap` in your import block.
 
 e.g.
 
@@ -19,7 +19,7 @@ package main
 
 import(
     ...
-    "github.com/foresthoffman/midproc"
+    "github.com/foresthoffman/reap"
 )
 ```
 
@@ -32,11 +32,11 @@ package main
 
 import(
     "fmt"
-    "github.com/foresthoffman/midproc"
+    "github.com/foresthoffman/reap"
 )
 
 func main() {
-    pid, err := midproc.Run("sleep", "30") // Creates a detached child process
+    pid, err := reap.Exec("sleep", "30") // Creates a detached child process
                                            // that will run the "sleep" command
                                            // with a duration of 30 seconds,
                                            // after which it exits.
@@ -55,7 +55,7 @@ package main
 import(
     "flag"
     "fmt"
-    "github.com/foresthoffman/midproc"
+    "github.com/foresthoffman/reap"
 )
 
 func main() {
@@ -68,7 +68,7 @@ func main() {
     // Creates a detached child process that will run the command provided
     // in the `-cmd` CLI flag with the provided arguments in the `-args`
     // CLI flag, if any. After which, it will exit.
-    pid, err := midproc.Run(*cmdFlag, *argsFlag)
+    pid, err := reap.Exec(*cmdFlag, *argsFlag)
     if nil != err {
         panic(err)
     }

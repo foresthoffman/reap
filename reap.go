@@ -1,12 +1,12 @@
 /**
- * midproc.go
+ * reap.go
  *
  * Copyright (c) 2017 Forest Hoffman. All Rights Reserved.
  * License: MIT License (see the included LICENSE file) or download at
- *     https://raw.githubusercontent.com/foresthoffman/midproc/master/LICENSE
+ *     https://raw.githubusercontent.com/foresthoffman/reap/master/LICENSE
  */
 
-package midproc
+package reap
 
 import (
 	"bytes"
@@ -36,7 +36,7 @@ func generateBgCmd(name string, arg ...string) string {
 //
 // In the case of a script-error, the error output to Stderror will be captured and returned along
 // with the error from the exec.Cmd.Run() call.
-func Run(name string, arg ...string) (int, error) {
+func Exec(name string, arg ...string) (int, error) {
 	var out bytes.Buffer
 	var stderr bytes.Buffer
 	sleepCmd := exec.Command("/bin/bash", "-c", generateBgCmd(name, arg...))
